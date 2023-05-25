@@ -1,0 +1,22 @@
+version: '3'
+services:
+  mysqldb:
+    image: mysql:5.7
+    platform: linux/amd64
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=12345
+      - MYSQL_DATABASE=userqueries
+  backend-api:
+    depends_on:
+      - mysqldb
+    build: ./backend
+    ports:
+      - 3000:3000
+    environment:
+      - DB_NAME=userqueries
+      - DB_PWD=12345
+      - DB_USER=root
+      - DB_HOST=mysqldb
+    
+  
